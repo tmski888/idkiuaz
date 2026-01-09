@@ -1,0 +1,458 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Mail, Phone, MapPin, Github, Linkedin, 
+  Cpu, BookOpen, Briefcase, 
+  Globe, ChevronRight, Menu, X, CheckCircle2, 
+  Download, Award, User
+} from 'lucide-react';
+
+const content = {
+  en: {
+    name: "Phan My Loc",
+    title: "Electronics Engineering & Engineering Assistant",
+    location: "Taichung City, Taiwan",
+    summary: "Sophomore student in Electronics Engineering at National Chin-Yi University of Technology. Skilled in electronic theory and practical operations. Familiar with engineering assistant workflows, equipment testing, and technical documentation.",
+    nav: { about: "About", experience: "Experience", education: "Education", skills: "Skills", contact: "Contact" },
+    about: {
+      title: "Professional Profile",
+      p1: "I am a highly motivated student currently pursuing a major in Electronics Engineering at NCUT. My background includes practical experience in technical support and engineering assistant roles.",
+      p2: "I pride myself on being a fast learner who communicates effectively across different languages. My current goal is to combine my academic knowledge with industrial practice."
+    },
+    education: {
+      title: "Education",
+      school: "National Chin-Yi University of Technology",
+      major: "Electronics Engineering",
+      status: "Sophomore (In Progress)",
+      details: [
+        "Core electronics curriculum and laboratory practices",
+        "Experience in circuit design and basic measurements",
+        "Proficient in laboratory safety protocols"
+      ]
+    },
+    experience: {
+      title: "Work Experience",
+      company: "Hung Kuang Industrial Co., Ltd.",
+      role: "Engineering Intern",
+      status: "Present",
+      details: [
+        "Assisted in engineering documentation and file management",
+        "Supported equipment testing and data logging",
+        "Administrative assistance at engineering sites",
+        "Collaborated with project managers to meet deadlines"
+      ]
+    },
+    skills: {
+      title: "Skills & Expertise",
+      pro: "Technical Skills",
+      tools: "Software Tools",
+      traits: "Personal Traits",
+      items: {
+        pro: ["Basic Electronic Circuits", "Multimeter Operation", "Technical Documentation"],
+        tools: ["Microsoft Excel", "Microsoft Word", "Data Analysis"],
+        traits: ["Detail-oriented", "Fast Learner", "High Adaptability"]
+      }
+    },
+    contact: {
+      title: "Let's Connect",
+      sub: "I am actively looking for opportunities to contribute my skills in engineering assistant roles.",
+      button: "Contact Me"
+    }
+  },
+  zh: {
+    name: "陸美芬",
+    title: "電子工程系學生 / 工程助理",
+    location: "台中市, 台灣",
+    summary: "就讀於國立勤益科技大學電子科（二年級），具備電子基礎理論與實務操作能力。熟悉工程助理日常支援工作流程，能協助資料整理與設備測試。",
+    nav: { about: "關於我", experience: "工作經驗", education: "學歷背景", skills: "專業技能", contact: "聯絡我" },
+    about: {
+      title: "個人簡介",
+      p1: "我就讀於國立勤益科技大學電子科（二年級），具備電子基礎理論與實務操作能力，目前擔任實習生。",
+      p2: "我是一個學習速度快的人，具備跨語言溝通能力，期望將學術知識與工業實踐相結合。"
+    },
+    education: {
+      title: "學歷背景",
+      school: "國立勤益科技大學",
+      major: "電子工程科",
+      status: "二年級（就讀中）",
+      details: [
+        "修習電子相關基礎課程與實驗實作",
+        "具備電子電路、基礎量測與實作經驗",
+        "熟悉實驗室操作與安全規範"
+      ]
+    },
+    experience: {
+      title: "工作經驗",
+      company: "鈜光實業股份有限公司",
+      role: "工程相關實習生",
+      status: "在職中",
+      details: [
+        "協助工程人員進行工程資料整理與文件建檔",
+        "支援設備基本測試、狀態確認與結果紀錄",
+        "協助處理工程現場行政作業與技術支援事項",
+        "配合工程進度安排，準時完成主管交辦任務"
+      ]
+    },
+    skills: {
+      title: "專業技能",
+      pro: "專業能力",
+      tools: "軟體工具",
+      traits: "個人特質",
+      items: {
+        pro: ["基礎電子電路概念", "電子儀器基本操作", "工程資料紀錄"],
+        tools: ["Microsoft Excel (中階)", "Microsoft Word", "數據整理"],
+        traits: ["細心負責", "學習速度快", "團隊配合度高"]
+      }
+    },
+    contact: {
+      title: "聯絡我",
+      sub: "我正在積極尋找能貢獻技能的工程助理職位。",
+      button: "發送郵件"
+    }
+  },
+  vi: {
+    name: "Phan Mỹ Lộc",
+    title: "Sinh viên Điện tử & Trợ lý Kỹ thuật",
+    location: "Thành phố Đài Trung, Đài Loan",
+    summary: "Sinh viên năm hai chuyên ngành Kỹ thuật Điện tử tại NCUT. Có kiến thức cơ bản về lý thuyết và thực hành điện tử, quy trình hỗ trợ kỹ thuật và lập tài liệu.",
+    nav: { about: "Giới thiệu", experience: "Kinh nghiệm", education: "Học vấn", skills: "Kỹ năng", contact: "Liên hệ" },
+    about: {
+      title: "Hồ sơ chuyên nghiệp",
+      p1: "Tôi là sinh viên ngành Kỹ thuật Điện tử tại NCUT, có kinh nghiệm thực tế trong việc hỗ trợ kỹ thuật.",
+      p2: "Tôi học hỏi nhanh và có khả năng giao tiếp đa ngôn ngữ, mong muốn áp dụng kiến thức học thuật vào môi trường công nghiệp."
+    },
+    education: {
+      title: "Học vấn",
+      school: "Đại học Khoa học và Công nghệ Quốc gia Chin-Yi (NCUT)",
+      major: "Kỹ thuật Điện tử",
+      status: "Năm 2 (Đang học)",
+      details: [
+        "Các khóa học cốt lõi về điện tử và thực hành phòng thí nghiệm",
+        "Kinh nghiệm thiết kế mạch và đo lường cơ bản",
+        "Thành thạo các quy định an toàn phòng thí nghiệm"
+      ]
+    },
+    experience: {
+      title: "Kinh nghiệm làm việc",
+      company: "Công ty TNHH Công nghiệp Hung Kuang",
+      role: "Thực tập sinh Kỹ thuật",
+      status: "Hiện tại",
+      details: [
+        "Hỗ trợ soạn thảo tài liệu kỹ thuật và quản lý hồ sơ",
+        "Hỗ trợ kiểm tra thiết bị và ghi chép dữ liệu",
+        "Hỗ trợ hành chính và kỹ thuật tại hiện trường",
+        "Phối hợp hoàn thành nhiệm vụ theo tiến độ"
+      ]
+    },
+    skills: {
+      title: "Kỹ năng & Chuyên môn",
+      pro: "Kỹ năng chuyên môn",
+      tools: "Công cụ phần mềm",
+      traits: "Phẩm chất cá nhân",
+      items: {
+        pro: ["Mạch điện tử cơ bản", "Sử dụng đồng hồ vạn năng", "Lập hồ sơ kỹ thuật"],
+        tools: ["Microsoft Excel", "Microsoft Word", "Phân tích dữ liệu"],
+        traits: ["Tỉ mỉ, trách nhiệm", "Học hỏi nhanh", "Thích nghi cao"]
+      }
+    },
+    contact: {
+      title: "Kết nối",
+      sub: "Tôi đang tìm kiếm cơ hội đóng góp kỹ năng của mình trong vai trò trợ lý kỹ thuật.",
+      button: "Liên hệ"
+    }
+  }
+};
+
+const App = () => {
+  const [lang, setLang] = useState('en');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const t = content[lang];
+
+  const LanguageSwitcher = () => (
+    <div className="inline-flex bg-slate-100 p-1 rounded-full shadow-inner border border-slate-200">
+      {[
+        { code: 'en', label: 'EN' },
+        { code: 'zh', label: '中' },
+        { code: 'vi', label: 'VN' }
+      ].map((l) => (
+        <button
+          key={l.code}
+          onClick={() => setLang(l.code)}
+          className={`px-3 py-1 rounded-full text-[10px] font-black tracking-tighter transition-all duration-300 ${
+            lang === l.code 
+            ? 'bg-white text-blue-600 shadow-md transform scale-105' 
+            : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          {l.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 scroll-smooth">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-slate-200 py-3' : 'bg-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <div className="text-xl font-black text-slate-900 tracking-tighter uppercase">
+            PHAN<span className="text-blue-600">MYLOC</span>
+          </div>
+          
+          <div className="hidden md:flex items-center gap-10">
+            {Object.entries(t.nav).map(([key, label]) => (
+              <a 
+                key={key} 
+                href={`#${key}`} 
+                className="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-colors"
+              >
+                {label}
+              </a>
+            ))}
+            <LanguageSwitcher />
+          </div>
+
+          <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden bg-white">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-50/50 skew-x-12 translate-x-32" />
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          <div className="order-2 lg:order-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-blue-100">
+              <MapPin size={12} /> {t.location}
+            </div>
+            <h1 className="text-5xl lg:text-8xl font-black mb-6 leading-[0.9] tracking-tighter">
+              {t.name}
+            </h1>
+            <p className="text-xl text-slate-500 mb-8 max-w-lg leading-relaxed font-medium">
+              {t.summary}
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a href="#contact" className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 hover:shadow-blue-200 hover:-translate-y-1 active:translate-y-0">
+                {t.contact.button}
+              </a>
+              <a href="#" className="flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-100 rounded-2xl font-bold hover:border-blue-600 transition-all">
+                <Download size={18} /> Resume
+              </a>
+            </div>
+          </div>
+
+          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+            <div className="relative group w-full max-w-md">
+              <div className="absolute -inset-4 bg-blue-600/5 rounded-[4rem] rotate-6 group-hover:rotate-3 transition-all duration-700" />
+              <div className="absolute -inset-4 bg-slate-200/50 rounded-[4rem] -rotate-3 group-hover:rotate-0 transition-all duration-700" />
+              <div className="relative aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-2xl bg-slate-100 border-8 border-white flex items-center justify-center">
+                <img 
+                  src="https://i.postimg.cc/mD8RzCHx/ZC1sdpkv.jpg" 
+                  alt={t.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden w-full h-full flex-col items-center justify-center bg-slate-200 text-slate-400">
+                  <User size={80} strokeWidth={1} />
+                  <span className="mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-white/80 px-4 py-2 rounded-full backdrop-blur-sm">
+                    Photo Unavailable
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-12 text-center">{t.experience.title}</h2>
+          
+          <div className="bg-white rounded-[3rem] p-8 md:p-12 shadow-sm border border-slate-100 group hover:border-blue-200 transition-all">
+            <div className="flex flex-col md:flex-row gap-12">
+              <div className="md:w-1/3">
+                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                  <Briefcase size={32} />
+                </div>
+                <h3 className="text-2xl font-black mb-2">{t.experience.company}</h3>
+                <p className="text-blue-600 font-bold mb-4">{t.experience.role}</p>
+                <div className="inline-block px-4 py-1.5 bg-slate-100 text-slate-500 rounded-full text-[10px] font-black uppercase tracking-widest">
+                  {t.experience.status}
+                </div>
+              </div>
+              <div className="md:w-2/3 grid gap-4">
+                {t.experience.details.map((detail, idx) => (
+                  <div key={idx} className="flex gap-4 p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-blue-100 hover:bg-white transition-all">
+                    <CheckCircle2 size={18} className="text-blue-500 shrink-0 mt-1" />
+                    <p className="text-slate-600 leading-relaxed font-medium">{detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section */}
+      <section id="education" className="py-24 px-6 bg-slate-100/50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-12 text-center">{t.education.title}</h2>
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-slate-100 relative overflow-hidden">
+              <BookOpen className="absolute -right-8 -bottom-8 w-40 h-40 text-slate-50/50 -rotate-12" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center">
+                    <Cpu size={28} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black">{t.education.school}</h3>
+                    <p className="text-blue-600 font-bold uppercase text-[10px] tracking-widest mt-1">{t.education.status}</p>
+                  </div>
+                </div>
+                <h4 className="text-lg font-bold mb-6 text-slate-700">{t.education.major}</h4>
+                <ul className="space-y-4">
+                  {t.education.details.map((d, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-slate-500 font-medium">
+                      <ChevronRight size={16} className="text-blue-600 shrink-0" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="grid gap-6">
+              <div className="bg-slate-900 text-white p-10 rounded-[3rem] flex flex-col justify-center">
+                <Award className="text-blue-400 mb-4" size={32} />
+                <h3 className="text-xl font-black mb-2">Technical Certifications</h3>
+                <p className="text-slate-400 text-sm mb-6">Continuously upgrading technical expertise through formal certifications.</p>
+                <div className="flex flex-wrap gap-3">
+                  <span className="px-4 py-2 bg-white/10 rounded-xl text-xs font-bold border border-white/10">Multimeter Operation</span>
+                  <span className="px-4 py-2 bg-white/10 rounded-xl text-xs font-bold border border-white/10">Lab Safety Protocol</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-4">{t.skills.title}</h2>
+              <p className="text-3xl font-black tracking-tight">Core Competencies</p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {Object.keys(t.skills.items).map((key) => (
+              <div key={key} className="space-y-8">
+                <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <span className="w-8 h-px bg-slate-200" /> {t.skills[key]}
+                </h4>
+                <div className="space-y-3">
+                  {t.skills.items[key].map((skill) => (
+                    <div key={skill} className="flex items-center justify-between group cursor-default">
+                      <span className="text-slate-600 font-bold group-hover:text-blue-600 transition-colors">{skill}</span>
+                      <div className="h-1 w-12 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-600 w-3/4 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 px-6 bg-slate-900 text-white rounded-t-[4rem]">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex p-4 bg-blue-600 rounded-3xl mb-8 shadow-2xl shadow-blue-500/20">
+            <Globe size={40} className="animate-pulse" />
+          </div>
+          <h2 className="text-5xl font-black mb-6 tracking-tight">{t.contact.title}</h2>
+          <p className="text-slate-400 text-lg mb-12 max-w-xl mx-auto font-medium">
+            {t.contact.sub}
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-6 text-left">
+            <a href="mailto:locmyphan@gmail.com" className="group p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all">
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                  <Mail size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Email Me</p>
+                  <p className="text-lg font-bold">locmyphan@gmail.com</p>
+                </div>
+              </div>
+            </a>
+            
+            <div className="group p-8 bg-white/5 border border-white/10 rounded-[2.5rem] hover:bg-white/10 transition-all">
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                  <Phone size={24} />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Call Me</p>
+                  <p className="text-lg font-bold">0976-738-422</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">© 2026 {t.name}</p>
+            <div className="flex gap-4">
+              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-blue-600 transition-all"><Github size={18} /></a>
+              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-blue-600 transition-all"><Linkedin size={18} /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mobile Menu */}
+      <div className={`fixed inset-0 bg-white z-50 p-8 flex flex-col transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'}`}>
+        <div className="flex justify-between items-center mb-16">
+          <div className="font-black text-xl tracking-tighter">PHAN<span className="text-blue-600">MYLOC</span></div>
+          <button onClick={() => setIsMenuOpen(false)}><X size={32} /></button>
+        </div>
+        <div className="flex flex-col gap-8 flex-1">
+          {Object.entries(t.nav).map(([key, label]) => (
+            <a 
+              key={key} 
+              href={`#${key}`} 
+              onClick={() => setIsMenuOpen(false)}
+              className="text-4xl font-black tracking-tighter hover:text-blue-600 transition-colors"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+        <div className="pb-10">
+          <p className="text-[10px] font-black uppercase text-slate-400 mb-4 tracking-widest">Select Language</p>
+          <LanguageSwitcher />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
